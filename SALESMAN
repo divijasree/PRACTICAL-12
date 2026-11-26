@@ -1,0 +1,32 @@
+n = int(input("Enter number of cities: "))
+
+print("Enter cost matrix (999 for no path):")
+cost = []
+
+for i in range(n):
+    row = list(map(int, input().split()))
+    cost.append(row)
+
+visited = [False] * n
+visited[0] = True
+
+def tsp(city, count, total):
+    global ans
+
+    if count == n:
+        ans = min(ans, total + cost[city][0])
+        return
+
+    for i in range(n):
+        if not visited[i] and cost[city][i] != 999:
+            visited[i] = True
+            tsp(i, count + 1, total + cost[city][i])
+            visited[i] = False
+
+ans = float('inf')
+tsp(0, 1, 0)
+
+if ans == float('inf'):
+    print("No possible tour")
+else:
+    print("Minimum travel cost =", ans)
